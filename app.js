@@ -10,7 +10,8 @@ app = express();
 app.use(global.jsonParser);
 
   // initilising routes
-var roleRoutes = require('./server/roles/roleRoutes');
+  var indexRoutes = require('./server/indexRoutes');
+// var roleRoutes = require('./server/roles/roleRoutes');
 
 
 // custom files starts
@@ -25,11 +26,11 @@ var roleRoutes = require('./server/roles/roleRoutes');
 
 // routes starts
 // var router = express.Router();
-app.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-  // res.sendFile(global.path.join(__dirname, '../../public/index.html'));
-});
-app.use('/role', roleRoutes);
+/* app.get('/', function(req, res, next) {
+  // res.render('index', { title: 'Express' });
+  res.sendFile(global.path.join(__dirname, './public/index.html'));
+}); */
+// app.use('/role', roleRoutes);
 
 
 global.connectionFactory.getConnection();
