@@ -1,19 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var roleController = require("./roleController");
+var indexController = require("./../indexController");
 router.post('/', function (req, res, next) {
     console.log(req.body);
     
-    roleController.addRole(req, res);
+    indexController.roleController.addRole(req, res);
 });
 router.get('/', function (req, res, next) {
-    // roleController.getRole(req, res);
-    res.send({ status: "rolessss" })
+    indexController.roleController.getRole(req, res);
 });
 router.put('/', function (req, res, next) {
-    roleController.udpateRole(req, res);
+    indexController.roleController.udpateRole(req, res);
 });
 router.delete('/:id', function (req, res, next) {
-    roleController.deleteRole(req, res);
+    indexController.roleController.deleteRole(req, res);
 });
 module.exports = router;

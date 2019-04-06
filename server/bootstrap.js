@@ -1,6 +1,6 @@
 const test = "test";
 
-const path = require('path'),
+let path = require('path'),
     // express = require('express'),
     favicon = require('serve-favicon'),
     morgan = require('morgan'),
@@ -15,6 +15,7 @@ const path = require('path'),
     mongoose = require('mongoose'),
     response = require("./component/response"),
     constants = require("./../config/constants"),
+    config = require("config"),
     uniqueValidator = require('mongoose-unique-validator');
 
 module.exports = function () {
@@ -35,4 +36,5 @@ module.exports = function () {
     global.response = response;
     global.constants = constants;
     global.uniqueValidator = uniqueValidator;
+    global.config = config;
 }

@@ -6,8 +6,10 @@ var constants = {
   blockTypes:['GP','URBAN'],
   urbanTypes:['Municipality','Nsc','Others'],
   messages:{
-    errors:{
+    error:{
       //global
+      "save"   : "Error in saving data",
+      "get"   : "Error in fetch data",
       "changePassword" : "Error in change password",
       "saveJob"   : "save Job Failure",
       "saveData"   :"save Data Error",
@@ -23,6 +25,8 @@ var constants = {
       },
     success:{
       //global
+      "save"   : "data saved successfully",
+      "get"   : "Data Fetched successfully",
       "changePassword" : "password change success",
       "saveJob"   : "save Job Success",
       "saveData"   :"save Data Success",

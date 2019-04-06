@@ -30,7 +30,7 @@ app.use(global.jsonParser);
   // res.render('index', { title: 'Express' });
   res.sendFile(global.path.join(__dirname, './public/index.html'));
 }); */
-// app.use('/role', roleRoutes);
+app.use('/', indexRoutes);
 
 
 global.connectionFactory.getConnection();

@@ -3,7 +3,19 @@
     "secret" : "goApps-Amaresh",
     "expiry":"24 hours"
   },
-  "dev":{
+  "moduleList":[
+    "role"
+  ],
+  "local":{
+    "baseUrl":"http://localhost",
+    "hostName":"localhost",
+    "port":":27017",
+    "db":"goapps-chikaboom",
+    "dbserver":"mongodb://",
+    "logPath":"./logs/server.log",
+    "uploadPath":"./public/upload"
+  },
+  "unit":{
     "baseUrl":"http://localhost",
     "hostName":"ds031618.mlab.com",
     "port":":31618",
@@ -24,5 +36,5 @@
     "uploadPath":"./public/upload"
   },
 
-  "env" : "dev"
+  "env" : "unit"
 }

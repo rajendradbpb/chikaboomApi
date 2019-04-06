@@ -1,20 +1,15 @@
-// var mongoose = require('mongoose');
-// var Schema = global.mongoose.Schema;
-// var colors = require('colors');
-// var response = global.response;
-// var models = require("./../models/index");
-var roleModel = require("./roleModel");
+var indexModel = require("./../indexModel");
 var constants = global.constants;
 // var logger = require("./../component/log4j").getLogger('roleCtrl');
 exports.addRole = function(req,res){
   try {
-    new roleModel(req.body).save(function (err) {
+    new indexModel.roleModel(req.body).save(function (err) {
       if(err){
         //logger.error("addRole ", err);
-        return global.response.sendResponse(res,500,"error",global.constants.messages.errors.saveRole,err);
+        return global.response.sendResponse(res,500,"error",global.constants.messages.error.save,err);
       }
       else {
-        return global.response.sendResponse(res,200,"success",global.constants.messages.success.saveRole);
+        return global.response.sendResponse(res,200,"success",global.constants.messages.success.save);
       }
     })
 
@@ -34,12 +29,12 @@ exports.getRole = function(req,res){
     if(req.query.type){
       params['type'] = req.query.type;
     }
-    roleModel.find(params,function(err,data){
+    indexModel.roleModel.find(params,function(err,data){
       if(err){
         //logger.error("getRole ", err);
-        return global.response.sendResponse(res,500,"error",global.constants.messages.errors.fetchRoles,err);
+        return global.response.sendResponse(res,500,"error",global.constants.messages.error.get,err);
       }
-      return global.response.sendResponse(res,200,"success",global.constants.messages.success.fetchRoles,data);
+      return global.response.sendResponse(res,200,"success",global.constants.messages.success.get,data);
     })
 
   } catch (e) {
@@ -53,7 +48,7 @@ exports.udpateRole = function(req,res){
     }
     delete req.body['_id'];
     var options = {new:true};
-    roleModel.findOneAndUpdate(query, req.body,options).exec()
+    indexModel.roleModel.findOneAndUpdate(query, req.body,options).exec()
     .then(function(data) {
       return global.response.sendResponse(res,200,"success",global.constants.messages.success.udpateRole,data);
     })
@@ -72,7 +67,7 @@ exports.deleteRole = function(req,res){
       "_id":req.params.id
     }
     delete req.body['_id'];
-    roleModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
+    indexModel.roleModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
       if(err){
         // logger.error("deleteRole ", err);
         return global.response.sendResponse(res,500,"error",global.constants.messages.errors.deleteRole,err);
