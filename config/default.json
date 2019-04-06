@@ -1,0 +1,26 @@
+{
+  "token":{
+    "secret" : "goApps-Amaresh",
+    "expiry":"24 hours"
+  },
+  "dev":{
+    "baseUrl":"http://localhost",
+    "hostName":"localhost",
+    "port":":27017",
+    "db":"express-seed-dev",
+    "dbserver":"mongodb://",
+    "logPath":"./logs/server.log",
+    "uploadPath":"./public/upload"
+  },
+  "prod":{
+    "baseUrl":"http://localhost",
+    "hostName":"localhost",
+    "port":":27017",
+    "db":"express-seed-prod",
+    "dbserver":"mongodb://",
+    "logPath":"./logs/server.log",
+    "uploadPath":"./public/upload"
+  },
+
+  "env" : "dev"
+}
