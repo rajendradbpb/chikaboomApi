@@ -1,18 +1,20 @@
 var express = require('express');
 var router = express.Router();
 var indexController = require("./../indexController");
+var indexMiddleware = require("../indexMiddleware");
 router.post('/', function (req, res, next) {
-    console.log(req.body);
-    
-    indexController.roleController.addRole(req, res);
+    indexController.userController.addUser(req, res);
 });
 router.get('/', function (req, res, next) {
-    indexController.roleController.getRole(req, res);
+    indexController.userController.getUser(req, res);
 });
 router.put('/', function (req, res, next) {
-    indexController.roleController.udpateRole(req, res);
+    indexController.userController.udpateUser(req, res);
 });
 router.delete('/:id', function (req, res, next) {
-    indexController.roleController.deleteRole(req, res);
+    indexController.userController.deleteUser(req, res);
+});
+router.post('/login', passport.authenticate('login', {session:false}),function (req, res, next) {
+    indexController.userController.loginUser(req, res);
 });
 module.exports = router;

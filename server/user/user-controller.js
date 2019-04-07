@@ -1,9 +1,15 @@
 var indexModel = require("./../indexModel");
 var constants = global.constants;
 // var logger = require("./../component/log4j").getLogger('roleCtrl');
-exports.addRole = function(req,res){
+exports.addUser = async function(req,res){
   try {
-    new indexModel.roleModel(req.body).save(function (err) {
+    let role = await indexModel.roleModel.findById(req.body.role);
+    if (!role) {
+      return response.sendResponse(res, 400, "error", global.constants.messages.error.invalidData);
+    }
+    // password encrypt
+    req.body.password = await global.indexComponent.utility.hashPasswordAsync(req.body.password);
+    new indexModel.userModel(req.body).save(function (err) {
       if(err){
         //logger.error("addRole ", err);
         return global.response.sendResponse(res,500,"error",global.constants.messages.error.save,err);
@@ -12,12 +18,11 @@ exports.addRole = function(req,res){
         return global.response.sendResponse(res,200,"success",global.constants.messages.success.save);
       }
     })
-
   } catch (e) {
-    //logger.error("addRole ", e);
+    console.log(e);
   }
 }
-exports.getRole = function(req,res){
+exports.getUser = function(req,res){
   try {
     var params = {
       isDelete:false,
@@ -26,10 +31,8 @@ exports.getRole = function(req,res){
     if(req.query._id){
       params['_id'] = req.query._id;
     }
-    if(req.query.type){
-      params['type'] = req.query.type;
-    }
-    indexModel.roleModel.find(params,function(err,data){
+   
+    indexModel.userModel.find(params,function(err,data){
       if(err){
         //logger.error("getRole ", err);
         return global.response.sendResponse(res,500,"error",global.constants.messages.error.get,err);
@@ -38,45 +41,30 @@ exports.getRole = function(req,res){
     })
 
   } catch (e) {
-    //logger.error("getRole ", e);
+    return global.response.sendResponse(res,500,"error",global.constants.messages.error.save,err);
+    console.log(e);
+    
   }
 }
-exports.udpateRole = function(req,res){
+exports.loginUser = function(req, res) {
+
   try {
-    var query = {
-      "_id":req.body._id
-    }
-    delete req.body['_id'];
-    var options = {new:true};
-    indexModel.roleModel.findOneAndUpdate(query, req.body,options).exec()
-    .then(function(data) {
-      return global.response.sendResponse(res,200,"success",global.constants.messages.success.udpateRole,data);
-    })
-    .catch(function(err) {
-      //logger.error("udpateRole ", err);
-      return global.response.sendResponse(res, 500,"error",global.constants.messages.error.udpateRole,err);
-    })
+    var token = jwt.sign(req.user, config.token.secret, {
+        expiresIn: config.token.expiry
+      },
+
+      function(token) {
+        var data = {
+          user: req.user,
+          token: token
+        }
+
+        response.sendResponse(res, 200, "success", constants.messages.success.login, data);
+      });
 
   } catch (e) {
-    //logger.error("udpateRole ", e);
-  }
-}
-exports.deleteRole = function(req,res){
-  try {
-    var query = {
-      "_id":req.params.id
-    }
-    delete req.body['_id'];
-    indexModel.roleModel.findOneAndUpdate(query,{"isDelete":true},{"new" :true},function(err,data) {
-      if(err){
-        // logger.error("deleteRole ", err);
-        return global.response.sendResponse(res,500,"error",global.constants.messages.errors.deleteRole,err);
-      }
-      else
-      return global.response.sendResponse(res,200,"success",global.constants.messages.success.deleteRole);
-    })
-
-  } catch (e) {
-    // logger.error("deleteRole ", e);
+    LOG.error(e);
+    logger.error("login  " + e);
+    response.sendResponse(res, 500, "error", constants.messages.errors.login, e);
   }
 }

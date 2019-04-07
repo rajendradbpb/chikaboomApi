@@ -1,97 +1,97 @@
 var constants = require('./../../config/constants');
 var response = require("./../component/response");
-var LOG = require('./../component/LOG');
-var models = require('./../models/index');
+// var LOG = require('./../component/LOG');
+// var models = require('./../models/index');
 
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
-var moment = require('moment');
+// var nodemailer = require('nodemailer');
+// var smtpTransport = require('nodemailer-smtp-transport');
+// var moment = require('moment');
 var config = require("config");
-var excel = require('node-excel-export');
+// var excel = require('node-excel-export');
 var utility = {};
-utility.isEmpty = function(data) {
+utility.isEmpty = function (data) {
   if (!data || data == "")
     return true;
   else {
     return false;
   }
 }
-utility.sendVerificationMail = function(userObj, callback) {
-  // var transporter = nodemailer.createTransport("SMTP", {
-  //   service: "Gmail",
-  //   auth: {
-  //     user: constants.gmailSMTPCredentials.username,
-  //     pass: constants.gmailSMTPCredentials.password
-  //   }
-  //   // host: 'smtp.goappssolutions.com',
-  //   // port: 587,
-  //   // secure: false, // upgrade later with STARTTLS
-  //   // auth: {
-  //   //     user: 'rajendra',
-  //   //     pass: 'infy@123'
-  //   // }
-  // });
-  // transporter = nodemailer.createTransport({
-  //   SES: new aws.SES({
-  //     apiVersion: '2010-12-01'
-  //   })
-  // });
+/* utility.sendVerificationMail = function(userObj, callback) {
+ // var transporter = nodemailer.createTransport("SMTP", {
+ //   service: "Gmail",
+ //   auth: {
+ //     user: constants.gmailSMTPCredentials.username,
+ //     pass: constants.gmailSMTPCredentials.password
+ //   }
+ //   // host: 'smtp.goappssolutions.com',
+ //   // port: 587,
+ //   // secure: false, // upgrade later with STARTTLS
+ //   // auth: {
+ //   //     user: 'rajendra',
+ //   //     pass: 'infy@123'
+ //   // }
+ // });
+ // transporter = nodemailer.createTransport({
+ //   SES: new aws.SES({
+ //     apiVersion: '2010-12-01'
+ //   })
+ // });
 
 
-  // var transporter = nodemailer.createTransport("SES", {
-  //   AWSAccessKeyID: "AKIAIYBJ5Z45D2OFLVRQ",
-  //   AWSSecretKey: "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",
-  //   SeviceUrl: "http://ec2-52-23-158-141.compute-1.amazonaws.com"
-  // });
+ // var transporter = nodemailer.createTransport("SES", {
+ //   AWSAccessKeyID: "AKIAIYBJ5Z45D2OFLVRQ",
+ //   AWSSecretKey: "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",
+ //   SeviceUrl: "http://ec2-52-23-158-141.compute-1.amazonaws.com"
+ // });
 
 
-  var transporter = nodemailer.createTransport("SMTP", {
-    host: "email-smtp.us-east-1.amazonaws.com",
-    secureConnection: true,
-    port: 465,
-    auth: {
-      user: "AKIAJQ645MHEM3FQ25UA",
-      pass: "AlwqDZB59eCXQvpSZ44gsuVkTCfo3s/5yLL7I+6CnO9d"
-    }
-  });
+ var transporter = nodemailer.createTransport("SMTP", {
+   host: "email-smtp.us-east-1.amazonaws.com",
+   secureConnection: true,
+   port: 465,
+   auth: {
+     user: "AKIAJQ645MHEM3FQ25UA",
+     pass: "AlwqDZB59eCXQvpSZ44gsuVkTCfo3s/5yLL7I+6CnO9d"
+   }
+ });
 
-  // getting template details
-  models.templateModel.findOne({type:userObj.templateType}).exec()
-  .then(function(template) {
-    // udpate data as per the user input
-    var mailOptions = {
-      from: constants.gmailSMTPCredentials.mailUsername + "<" + constants.gmailSMTPCredentials.verificationMail + ">",
-      // to: userObj.email,
-      transport: transporter,
-      to: userObj.email,
-      subject: template.header,
-      text: template.htmlcontent
-        .replace(/{{name}}/g, userObj.name)
-        .replace(/{{email}}/g, userObj.email)
-        .replace(/{{password}}/g, userObj.password)
-        .replace(/{{mobile}}/g, userObj.mobile)
-        .replace(/{{company}}/g, userObj.company)
-        .replace(/{{referredBy}}/g, userObj.referredBy)
-        .replace(/{{signUpUrl}}/g, userObj.signUpUrl)
-    }
-    LOG.info(JSON.stringify(mailOptions));
-    // verify connection configuration
-    nodemailer.sendMail(mailOptions, function(err, res) {
-      if (err) {
-        console.log("Message sent: Error" + err.message);
-        callback(err, null)
-      } else {
-        console.log("Message sent: " + res);
-        callback(null, true)
-      }
-    });
-  })
-  .catch(function(err) {
-    LOG.error("Error in sending mail ",err)
-  })
+ // getting template details
+ models.templateModel.findOne({type:userObj.templateType}).exec()
+ .then(function(template) {
+   // udpate data as per the user input
+   var mailOptions = {
+     from: constants.gmailSMTPCredentials.mailUsername + "<" + constants.gmailSMTPCredentials.verificationMail + ">",
+     // to: userObj.email,
+     transport: transporter,
+     to: userObj.email,
+     subject: template.header,
+     text: template.htmlcontent
+       .replace(/{{name}}/g, userObj.name)
+       .replace(/{{email}}/g, userObj.email)
+       .replace(/{{password}}/g, userObj.password)
+       .replace(/{{mobile}}/g, userObj.mobile)
+       .replace(/{{company}}/g, userObj.company)
+       .replace(/{{referredBy}}/g, userObj.referredBy)
+       .replace(/{{signUpUrl}}/g, userObj.signUpUrl)
+   }
+   LOG.info(JSON.stringify(mailOptions));
+   // verify connection configuration
+   nodemailer.sendMail(mailOptions, function(err, res) {
+     if (err) {
+       console.log("Message sent: Error" + err.message);
+       callback(err, null)
+     } else {
+       console.log("Message sent: " + res);
+       callback(null, true)
+     }
+   });
+ })
+ .catch(function(err) {
+   LOG.error("Error in sending mail ",err)
+ })
 
 
-}
+}  */
 /**
  * functionName :utility.stringify()
  * Info : used to stringify the content of the object or the array of object
@@ -100,7 +100,7 @@ utility.sendVerificationMail = function(userObj, callback) {
  * createdDate - 22-9-16
  * updated on - 22-9-16
  */
-utility.stringify = function(objData) {
+utility.stringify = function (objData) {
   return JSON.stringify(objData);
 }
 /**
@@ -115,7 +115,7 @@ utility.stringify = function(objData) {
  * createdDate - 24-9-16
  * updated on - 24-9-16
  */
-utility.getDateFormat = function(objData) {
+/* utility.getDateFormat = function(objData) {
   var formatDate = null;
   switch (objData.operation) {
     case 'add':
@@ -125,7 +125,7 @@ utility.getDateFormat = function(objData) {
       console.log("getDateFormat  not mentioned ");
   }
   return new Date(formatDate); // here we converted to the javascript format as mongo db do not recognise momoment format
-}
+} */
 
 /**
  * functionName :utility.dateDiff()
@@ -136,14 +136,14 @@ utility.getDateFormat = function(objData) {
  * createdDate - 01-10-16
  * updated on - 01-10-16
  */
-utility.dateDiff = function(startDate, endDate) {
+/* utility.dateDiff = function(startDate, endDate) {
   startDate = moment(new Date(startDate));
   endDate = endDate ? moment(new Date(endDate)) : moment(new Date());
   var days = endDate.diff(startDate, 'days');
   days = days || 1;
   console.log("days  ", days);
   return days;
-}
+} */
 /**
  * functionName :utility.isDataExist()
  * Info : to check wheather data present or blank , where checking ZERo optional
@@ -154,7 +154,7 @@ utility.dateDiff = function(startDate, endDate) {
  * createdDate - 16-10-2016
  * updated on - 16-10-2016
  */
-utility.isDataExist = function(data, isZero) {
+/* utility.isDataExist = function(data, isZero) {
   var status = true;
   if (data == undefined || data == null) {
     status = false;
@@ -181,7 +181,7 @@ utility.uploadImage = function(imageDetail, callback) {
     }
 
   });
-}
+} */
 /**
  * making dynamically validation for the fields passed in the request STARTS
  @param 1st - represents req
@@ -190,7 +190,7 @@ utility.uploadImage = function(imageDetail, callback) {
  * Make sure the the first , second,third must be present paramereres while calling this function
  * must be the req and the res object and rest are checked with the null validation
  */
-utility.validateNull = function() {
+/* utility.validateNull = function() {
   var args = arguments;
   if (args.length < 3) {
     throw Error("Invalid paramereres supplied to  validation");
@@ -205,9 +205,9 @@ utility.validateNull = function() {
     }
 
   }
-}
+} */
 
-utility.getAlphaNumeric = function(precision) {
+/* utility.getAlphaNumeric = function(precision) {
   precision = precision || constants.forgotPasswordPrec;
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -216,13 +216,13 @@ utility.getAlphaNumeric = function(precision) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return "@"+text;
-}
+} */
 
 /**
  * making dynamically validation for the fields passed in the request ENDS
  */
 
- utility.downloadXls = function(res,dataset,columns,fileName,tabName){
+/*  utility.downloadXls = function(res,dataset,columns,fileName,tabName){
    console.log("############# dataset   ",dataset);
    try{
      if(!fileName){
@@ -263,5 +263,16 @@ utility.getAlphaNumeric = function(precision) {
    catch(err){
      return response.sendResponse(res, 500, "error", constants.messages.errors.getData,err);
    }
- }
+ } */
+utility.hashPasswordAsync = async function (password) {
+  return new Promise(function (resolve, reject) {
+    global.passwordHash(password).hash(function (error, hash) {
+      if (error) {
+        reject(error);
+      }
+      resolve(hash);
+    })
+  });
+}
+
 module.exports = utility;

@@ -5,6 +5,8 @@
   },
   "moduleList":[
     "role"
+    ,"user"
+    ,"auth"
   ],
   "local":{
     "baseUrl":"http://localhost",

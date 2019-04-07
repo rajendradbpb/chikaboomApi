@@ -16,7 +16,24 @@ let path = require('path'),
     response = require("./component/response"),
     constants = require("./../config/constants"),
     config = require("config"),
+    indexComponent = require("./indexComponent"),
+    log4js = require('./common/log4j'),
     uniqueValidator = require('mongoose-unique-validator');
+
+/* 
+* Note : Removed log4j for 
+    1. could not configure multiple log level in different file like app.log and server.log
+*/ 
+/* log4js.configure({
+    appenders: {
+        server: { type: 'file', filename: 'server.log' },
+        application: { type: 'file', filename: 'application.log' }
+    },
+    categories: { 
+        error: { appenders: ['server'], level: 'error' },
+        default: { appenders: ['application'], level: 'debug' },
+     }
+}); */
 
 module.exports = function () {
     // global.test = test;
@@ -37,4 +54,8 @@ module.exports = function () {
     global.constants = constants;
     global.uniqueValidator = uniqueValidator;
     global.config = config;
+    global.log4js = log4js;
+    global.indexComponent = indexComponent;
+    
+  
 }

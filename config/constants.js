@@ -10,6 +10,7 @@ var constants = {
       //global
       "save"   : "Error in saving data",
       "get"   : "Error in fetch data",
+      "invalidData" : "Invalid data", // generic
       "changePassword" : "Error in change password",
       "saveJob"   : "save Job Failure",
       "saveData"   :"save Data Error",
