@@ -1,6 +1,13 @@
 var config = require('config');
 var constants = {
   debug:true,
+  appConstants:{
+    ROLE_CHILD:"child",
+    ROLE_ADMIN:"admin",
+    GENDER_MALE:"male",
+    GENDER_FEMALE:"female",
+
+  },
   roles:['admin','state-admin','district-admin','vle'],
   userStatus:['active','pending','inactive'],
   blockTypes:['GP','URBAN'],

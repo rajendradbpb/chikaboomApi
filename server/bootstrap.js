@@ -18,6 +18,7 @@ let path = require('path'),
     config = require("config"),
     indexComponent = require("./indexComponent"),
     log4js = require('./common/log4j'),
+    enumValues = require('mongoose-enumvalues'),
     uniqueValidator = require('mongoose-unique-validator');
 
 /* 
@@ -56,6 +57,7 @@ module.exports = function () {
     global.config = config;
     global.log4js = log4js;
     global.indexComponent = indexComponent;
+    global.enumValues = enumValues;
     
   
 }
