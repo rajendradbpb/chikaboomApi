@@ -42,7 +42,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"type\":\"admin2\",\n\t\"api\":[{\n\t\t\"name\":\"name1\"\n\t\t\n\t}]\n}"
+					"raw": "{\n\t\"type\":\"admin\",\n\t\"api\":[{\n\t\t\"name\":\"name1\"\n\t\t\n\t}]\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3000/role",
@@ -59,7 +59,7 @@
 			"response": []
 		},
 		{
-			"name": "user-POST",
+			"name": "user-admin-POST",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -72,7 +72,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"role\": \"5ca8f749e92c671404ce2e4e\",\n    \"username\": \"user2\",\n    \"password\": \"user2\",\n    \"email\": \"email\",\n    \"mobile\": \"7377056953\",\n    \"firstName\": \"user1\",\n    \"lastName\": \"user1\"\n}"
+					"raw": "{\n\t\"role\": \"5cad7f665a977f3518518296\",\n    \"username\": \"admin1\",\n    \"password\": \"admin1\",\n    \"email\": \"admin1@gmail.com\",\n    \"mobile\": \"1111111111\",\n    \"firstName\": \"admin1\",\n    \"lastName\": \"admin1\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3000/user",
@@ -125,7 +125,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\":\"user1\",\n\t\"password\":\"user1\"\n}"
+					"raw": "{\n\t\"username\":\"user2\",\n\t\"password\":\"user2\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3000/auth/login",
@@ -177,6 +177,91 @@
 					"path": [
 						"auth",
 						"loggedin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-child-POST",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n   \n    \n    \"mobile\": \"1111111111\",\n    \"age\": \"10\",\n    \"school\": \"school\",\n    \"grade\": \"grade\",\n    \"gender\": \"male\"\n    \n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/child",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"child"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-child?mobile=1111111112",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/child?mobile=1111111112",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"child"
+					],
+					"query": [
+						{
+							"key": "mobile",
+							"value": "1111111112"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "user-child",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:3000/user/child",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user",
+						"child"
 					]
 				}
 			},
